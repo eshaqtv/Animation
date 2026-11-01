@@ -1,0 +1,468 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Starlink iraq سينما</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0a0c10;
+            color: #eef2ff;
+            overflow-x: hidden;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 25px 30px;
+            width: 100%;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 15px;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to left, #f5f7fe, #cbd5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-block;
+        }
+        .page-title h1:hover {
+            opacity: 0.8;
+        }
+
+        .page-title p {
+            color: #8f9bb3;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            background: #1a1e2a;
+            padding: 8px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #2d3345;
+        }
+
+        .search-box i {
+            color: #ff9f4a;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #eef2ff;
+            font-family: 'Cairo', sans-serif;
+            width: 220px;
+        }
+
+        .search-box input::placeholder {
+            color: #6a6f86;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 22px;
+            margin-top: 20px;
+        }
+
+        .anime-card {
+            background: #141824;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 140, 66, 0.4);
+            box-shadow: 0 22px 28px -14px rgba(0, 0, 0, 0.6);
+            background: #1b212e;
+        }
+
+        .card-img {
+            position: relative;
+            width: 100%;
+            padding-top: 130%;
+            overflow: hidden;
+            background: #0b0e16;
+        }
+
+        .card-img img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .anime-card:hover .card-img img {
+            transform: scale(1.05);
+        }
+
+        .card-info {
+            padding: 14px 8px 12px;
+            text-align: center;
+        }
+
+        .card-info h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f0f3ff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            background: rgba(255, 140, 66, 0.2);
+            color: #ffb347;
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            border-radius: 40px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .play-hint {
+            opacity: 0;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff8c42e6;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transition: 0.2s;
+            pointer-events: none;
+            color: #0a0c10;
+        }
+
+        .anime-card:hover .play-hint {
+            opacity: 1;
+        }
+
+        .footer-note {
+            margin-top: 50px;
+            text-align: center;
+            color: #5a6b8c;
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 25px;
+        }
+
+        /* الهواتف: 4 بطاقات في السطر */
+        @media (max-width: 780px) {
+            .main-content {
+                padding: 20px 12px;
+            }
+            .anime-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+            }
+            .card-info h3 {
+                font-size: 0.7rem;
+            }
+            .badge {
+                font-size: 0.55rem;
+                padding: 2px 6px;
+            }
+            .play-hint {
+                font-size: 0.6rem;
+                padding: 3px 8px;
+            }
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .anime-grid {
+                gap: 8px;
+            }
+            .card-info {
+                padding: 8px 4px;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-content">
+    <div class="top-bar">
+        <div class="page-title">
+            <h1 id="homeLink"><i class="fas fa-crown" style="color:#FFB347; font-size: 1.5rem;"></i> Starlink iraq سينما</h1>
+            <p><html>
+<head>
+<meta content="text/html; charset=ISO-8859-1"
+http-equiv="content-type">
+<title></title>
+</head>
+<body>
+<span style="font-weight: bold;"><a
+href="https://eshaqtv.github.io/film"><span
+style="color: rgb(51, 102, 255);">الرئيسية</span></a>&nbsp; <a
+href="https://eshaqtv.github.io/Arabic"><span
+style="color: rgb(51, 204, 0);">افلام
+عربية</span></a><a href="https://eshaqtv.github.io/Arabic">&nbsp;</a>&nbsp;<a
+href="https://eshaqtv.github.io/Indian"> <span
+style="color: rgb(255, 204, 0);">افلام هندية </span></a>&nbsp;<a
+href="https://eshaqtv.github.io/Animation"> <span style="color: red;">افلام
+انميشن</span>&nbsp;</a>&nbsp; <a
+href="https://eshaqtv.github.io/Documentary"><span
+style="color: rgb(0, 204, 204);">وثائقيات</span></a></span><br
+style="font-weight: bold;">
+</body>
+</html> </p>
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلم او تصنيف...">
+        </div>
+    </div>
+
+    <div id="animeGridContainer" class="anime-grid"></div>
+    <div class="footer-note">
+        <i class="fas fa-globe"></i> <html>
+<head>
+<meta content="text/html; charset=ISO-8859-1"
+http-equiv="content-type">
+<title></title>
+</head>
+<body>
+<a href="https://t.me/starlinkfilm" target="_blank">2026 | Telegram</a><br>
+</body>
+</html>
+
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // بيانات الأنمي الكاملة (لضمان الحفاظ على جميع العناوين)
+    // --------------------------------------------------------------
+    const animeItems = [
+{ name: "The Pout-Pout Fish (2026) انميشن", img: "https://pngup.com/NJRm/The%20Pout-Pout%20Fish%20(2026).jpg", link: "https://www.linkbox.to/a/f/pF3Zr03?d=true" },
+{ name: "The Super Mario Galaxy Movie (2026) انميشن", img: "https://pngup.com/8Z3q/The%20Super%20Mario%20Galaxy%20Movie%20(2026).jpg", link: "https://www.linkbox.to/a/f/SGStp7S?d=true" },  
+{ name: "The SpongeBob Movie Search for SquarePants (2025) انميشن", img: "https://i.ibb.co/20zqLLcH/The-Sponge-Bob-Movie-Search-for-Square-Pants-2025.jpg", link: "https://www.linkbox.to/a/f/T3aExPS?d=true" },
+    { name: "Swapped (2026) مدبلج انميشن", img: "https://i.ibb.co/LzCNBDp5/Swapped-2026.jpg", link: "https://www.linkbox.to/a/f/msGsh8B?d=true" },
+    { name: "Zootopia 2 (2025) مدبلج انميشن", img: "https://i.ibb.co/fY5C4jpT/Zootopia-2-2025.jpg", link: "https://www.linkbox.to/a/f/1sw4Cfv?d=true" },
+    { name: "Mufasa The Lion King (2024)انميشن عائلي", img: "https://i.ibb.co/pj2fyB0F/Mufasa-The-Lion-King-2024.jpg", link: "https://www.linkbox.to/a/f/VOUzqJO?d=true" },
+  { name: " Spellbound (2024) انميشن", img: "https://i.ibb.co/SrF8hZr/Spellbound-2024.jpg", link: "https://www.linkbox.to/a/f/rkNsPzw?d=true" },
+        { name: "Watchmen Chapter II (2024) انميشن ", img: "https://i.ibb.co/CB07V2Y/Watchmen-Chapter-II-2024.jpg", link: "https://www.linkbox.to/a/f/YBvVbhN?d=true" },  
+{ name: " Wallace & Gromit Vengeance Most Fowl (2024) انميشن", img: "https://i.ibb.co/ccQqGKzZ/Wallace-Gromit-Vengeance-Most-Fowl-2024.jpg", link: "https://www.linkbox.to/a/f/dZLiWJY?d=true" },
+        { name: "The Lord of the Rings The War of the Rohirrim (2024) انميشن ", img: "https://i.ibb.co/k2LyYRJR/The-Lord-of-the-Rings-The-War-of-the-Rohirrim-2024.jpg", link: "https://www.linkbox.to/a/f/93Hx6ou?d=true" },  
+{ name: "The Bad Guys Haunted Heist (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/oEJC05CqPugMxC4rFu9r6r6vg6m.jpg", link: "https://www.linkbox.to/a/f/PZtWjtU?d=true" },
+ { name: "200% Wolf (2024) انميشن", img: "https://i.ibb.co/Mnd4ctQ/200-Wolf-2024.jpg", link: "https://www.linkbox.to/a/f/jZTBUXJ?d=true" },   
+{ name: "Inside Out 2 (2024) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xeqXXTE1Cd3qNaAEOT6qbhhCsgJ.jpg", link: "https://www.linkbox.to/a/f/kWbyP79?d=true" },
+{ name: "Despicable Me 4 (2024) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wWba3TaojhK7NdycRhoQpsG0FaH.jpg", link: "https://www.linkbox.to/a/f/5rRLnG2?d=true" },
+{ name: "Dragonkeeper (2024) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ggZGnJLzO3BTu7ysuuIzou3Oex5.jpg", link: "https://www.linkbox.to/a/f/LKNBSRp?d=true" },
+{ name: "The Garfield Movie (2024) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xYduFGuch9OwbCOEUiamml18ZoB.jpg", link: "https://www.linkbox.to/a/f/qLR8LIi?d=true" },
+{ name: "Mars Express (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/g8rUn0khoYB3G4gPPGTF1Xv9Olu.jpg", link: "https://www.linkbox.to/a/f/WMtuQnO?d=true" },
+{ name: "Watchmen Chapter I (2024) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tE2vZ6HdlmKaBh0wpsvHCf7HJKo.jpg", link: "https://www.linkbox.to/a/f/V4EhNKe?d=true" },
+{ name: "Spider-Man Across the Spider-Verse (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg", link: "https://www.linkbox.to/a/f/cP5sd3v?d=true" },
+{ name: "Cricket & Antoinette (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fBSLAMH5vczIWgzpa9x7Z52F4QH.jpg", link: "https://www.linkbox.to/a/f/2mlWxlq?d=true" },
+{ name: "Resident Evil Death Island (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qayga07ICNDswm0cMJ8P3VwklFZ.jpg", link: "https://www.linkbox.to/a/f/w3nBXba?d=true" },
+{ name: "The Monkey King (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/i6ye8ueFhVE5pXatgyRrZ83LBD8.jpg", link: "https://www.linkbox.to/a/f/Pb2wr5L?d=true" },
+{ name: "Elemental (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg", link: "https://www.linkbox.to/a/f/nFXK7Ns?d=true" },
+{ name: "Heroes of the Golden Masks (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cFzHd71e1d82VYrhx0m0bxE9lrL.jpg", link: "https://www.linkbox.to/a/f/ALIr0Wu?d=true" },
+{ name: "Mavka The Forest Song (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/eeJjd9JU2Mdj9d7nWRFLWlrcExi.jpg", link: "https://www.linkbox.to/a/f/Hnougrl?d=true" },
+{ name: "The Super Mario Bros. Movie (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg", link: "https://www.linkbox.to/a/f/vrGCwCY?d=true" },
+{ name: "Mummies (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r6Ghtw9ENhTXfeUsd1Al20ZAvX.jpg", link: "https://www.linkbox.to/a/f/w2B84GZ?d=true" },
+{ name: "The Magician's Elephant (2023) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cAoAgzOCxSytYBqqCQulhXNR3LB.jpg", link: "https://www.linkbox.to/a/f/c1znLgf?d=true" },
+{ name: "Puss in Boots The Last Wish (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/kuf6dutpsT0vSVehic3EZIqkOBt.jpg", link: "https://www.linkbox.to/a/f/O65w0gk?d=true" },
+{ name: "The Amazing Maurice (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ydhZeUjbzVEFclUpMhLfDZSavUY.jpg", link: "https://www.linkbox.to/a/f/sHehrtw?d=true" },
+{ name: "Diary of a Wimpy Kid Rodrick Rules (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iW6ixzkrvdrcxk0umiLZMtlSl9L.jpg", link: "https://www.linkbox.to/a/f/MugizA8?d=true" },
+{ name: "Strange World (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/AfuclRfW7AMfuU12YVA0MqTuGTF.jpg", link: "https://www.linkbox.to/a/f/BbMOyGr?d=true" },
+{ name: "Tom and Jerry Snowman's Land (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/memqWrs4zmLgMBfzTfebrOXbytG.jpg", link: "https://www.linkbox.to/a/f/QBYSoC6?d=true" },
+{ name: "Tad the Lost Explorer and the Emerald Tablet (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aFgTmKSwVc7o0OSCKOvqV99XZ3z.jpg", link: "https://www.linkbox.to/a/f/0DzHQ7U?d=true" },
+{ name: "Trick or Treat Scooby Doo (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r4ZDV5Xm8qrbG2TIPlocs2wJxHL.jpg", link: "https://www.linkbox.to/a/f/vw9SMwD?d=true" },
+{ name: "Wendell & Wild (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/s7XxXJ7ponaLAkxiySRxox2Ssc4.jpg", link: "https://www.linkbox.to/a/f/NwB9axv?d=true" },
+{ name: "Batman and Superman Battle of the Super Sons (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/mvffaexT5kA3chOnGxwBSlRoshh.jpg", link: "https://www.linkbox.to/a/f/gEfCJ2W?d=true" },
+ { name: "Scrooge A Christmas Carol (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/a0LSSx4tR7UJHahCbYThwS9tEmX.jpg", link: "https://www.linkbox.to/a/f/MIK54j1?d=true" },
+{ name: "One Piece Film Red (2022) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ogDXuVkO92GcETZfSofXXemw7gb.jpg", link: "https://www.linkbox.to/a/f/8nfSM9w?d=true" }, 
+{ name: "Rumble (2021) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fL7rh6Mzx87MbVl2aI4sYtxfhO5.jpg", link: "https://www.linkbox.to/a/f/VCa0Sch?d=true" },
+{ name: "Lamya's Poem (2021) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6d2515LFOKzqwvhhnfcNsf3lIUe.jpg", link: "https://www.linkbox.to/a/f/ULCS6h9?d=true" },
+{ name: "Toy Story 4 (2019) انميشن مدبلج", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/w9kR8qbmQ01HwnvK4alvnQ2ca0L.jpg", link: "https://www.linkbox.to/a/f/xWgRGk9?d=true" },
+{ name: "The Good Dinosaur (2015) انميشن مدبلج ", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hUEVzf4Q7a3v9qybTt84dSbIiVx.jpg", link: "https://www.linkbox.to/a/f/fTgdxVK?d=true" },
+{ name: "The Little Prince (2015) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/je5Z7gbFTzrs3FPHINo9yGiHoVo.jpg", link: "https://www.linkbox.to/a/f/jPU99cE?d=true" },
+{ name: "Arthur Christmas (2011) انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/yF7SNheAGWavNnjbAronedwjC1N.jpg", link: "https://www.linkbox.to/a/f/wVSb4vC?d=true" },
+{ name: "Toy Story 3 (2010) انميشن مدبلج", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/AbbXspMOwdvwWZgVN0nabZq03Ec.jpg", link: "https://www.linkbox.to/a/f/zmzfsEo?d=true" },
+{ name: "Up (2009) مدبلج انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vpbaStTMt8qqXaEgnOR2EE4DNJk.jpg", link: "https://www.linkbox.to/a/f/UbibDHQ?d=true" },
+{ name: "Tarzan 2 (2005) مدبلج انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/VFm7cqSUrv6mCW6uFIJFhSZLjq.jpg", link: "https://www.linkbox.to/a/f/IyLORuu?d=true" },
+{ name: "Tarzan and Jane (2002) مدبلج انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/esRxshmD2BY1UPkiUHt7Gn2mksl.jpg", link: "https://www.linkbox.to/a/f/SJFN7en?d=true" },
+{ name: "Atlantis The Lost Empire (2001) انميشن مدبلج", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rdCyK9hgoA2vYrLtVFpDc3KWBaC.jpg", link: "https://www.linkbox.to/a/f/rGIzXaH?d=true" },
+{ name: "Dinosaur (2000) انميشن مدبلج", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rSje3FS7ycJSglowlngjsvDt7vO.jpg", link: "https://www.linkbox.to/a/f/vDIfKzj?d=true" },
+{ name: "Tarzan (1999) مدبلج انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bTvHlcqiOjGa3lFtbrTLTM3zasY.jpg", link: "https://www.linkbox.to/a/f/94KSzvg?d=true" },
+{ name: "Toy Story 2 (1999) انميشن مدبلج", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xVhEI1WCgNCCa5I86AqiwuZoog3.jpg", link: "https://www.linkbox.to/a/f/lqdcfUR?d=true" },
+{ name: "Toy Story (1995) انميشن مدبلج", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg", link: "https://www.linkbox.to/a/f/p20BKXq?d=true" },
+{ name: "Aladdin (1992) مدبلج انميشن", img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg", link: "https://www.linkbox.to/a/f/SbJG1iT?d=true" },
+{ name: "The Boy, the Mole, the Fox and the Horse (2022)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/oQRgyQCzcyZvE6w5heM9ktVY0LT.jpg", link: "https://www.linkbox.to/a/f/hpGnOxy?d=true" },
+{ name: "Guillermo del Toro's Pinocchio (2022)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg", link: "https://www.linkbox.to/a/f/u7UlH7u?d=true" },
+{ name: "Mortal Kombat Legends Snow Blind (2022)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/jtsq5Vc4auAguReZqCUvRGHUWuq.jpg", link: "https://www.linkbox.to/a/f/x9BYxIR?d=true" },
+{ name: "Night at the Museum Kahmunrah Rises Again (2022)", img: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/zo5iCQFZRgpLldUnOHcCHT943Sq.jpg", link: "https://www.linkbox.to/a/f/x1lmjPC?d=true" },
+    ];
+
+    const extraAnime = [
+
+
+
+{ name: "افلام", img: "https://www8.0zz0.com/2022/04/22/13/564305132.jpg", link: "go:FILMS" },
+
+
+
+];
+
+
+   
+    const allAnime = [...animeItems, ...extraAnime];
+
+    // عناصر DOM
+    const searchInputElem = document.getElementById('searchInput');
+    const gridContainer = document.getElementById('animeGridContainer');
+    const homeLink = document.getElementById('homeLink');
+
+    // تعطيل استعادة التمرير التلقائي من المتصفح للتحكم اليدوي
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
+    // حفظ واسترجاع موضع التمرير
+    function saveScrollPosition() {
+        const scrollY = window.scrollY;
+        sessionStorage.setItem('animeScrollPos', scrollY);
+    }
+
+    function restoreScrollPosition() {
+        const savedPos = sessionStorage.getItem('animeScrollPos');
+        if (savedPos !== null && !isNaN(parseInt(savedPos))) {
+            window.scrollTo(0, parseInt(savedPos));
+            sessionStorage.removeItem('animeScrollPos');
+        }
+    }
+
+    // حفظ الموضع قبل مغادرة الصفحة (لأي سبب)
+    window.addEventListener('beforeunload', () => {
+        saveScrollPosition();
+    });
+
+    // حفظ الموضع عند النقر على الأنمي (لضمان الدقة)
+    function attachCardListeners() {
+        document.querySelectorAll('.anime-card').forEach(card => {
+            card.removeEventListener('click', handleCardClick);
+            card.addEventListener('click', handleCardClick);
+        });
+    }
+
+    function handleCardClick(e) {
+        const link = this.getAttribute('data-link');
+        if (link) {
+            saveScrollPosition();   // حفظ الموضع الحالي بدقة
+            window.open(link);
+        }
+    }
+
+    function renderCards(filter = '') {
+        const filtered = allAnime.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()));
+        if (!gridContainer) return;
+        if (filtered.length === 0) {
+            gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">⚠️ لا توجد نتائج مطابقة لـ "${filter}"</div>`;
+            return;
+        }
+        let html = '';
+        filtered.forEach(anime => {
+            html += `
+                <div class="anime-card" data-link="${anime.link}" data-name="${anime.name}">
+                    <div class="card-img">
+                        <img src="${anime.img}" alt="${anime.name}" loading="lazy" onerror="this.src='https://placehold.co/400x520?text=No+Image'">
+                        <div class="play-hint"><i class="fas fa-play"></i> تشغيل</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>${anime.name}</h3>
+                        <div class="badge"><i class="fas fa-tv"></i> Free</div>
+                    </div>
+                </div>
+            `;
+        });
+        gridContainer.innerHTML = html;
+        attachCardListeners();
+    }
+
+    // النقر على عنوان "قائمة الأنمي" يفتح go:home
+    if (homeLink) {
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://play.google.com/store/apps/details?id=com.linkbox.plus.android&hl=ar');
+        });
+    }
+
+    if (searchInputElem) {
+        searchInputElem.addEventListener('input', (e) => renderCards(e.target.value));
+    }
+
+    // عند تحميل الصفحة: عرض البطاقات واستعادة الموضع
+    window.addEventListener('load', () => {
+        renderCards('');
+        restoreScrollPosition();
+    });
+
+    // عند العودة من الصفحة عبر bfcache (مثل الرجوع من الرابط)
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            restoreScrollPosition();
+        }
+    });
+</script>
+</body>
+</html>
+
+
